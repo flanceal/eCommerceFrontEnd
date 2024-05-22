@@ -4,6 +4,7 @@ import { Home } from './components/Home.jsx';
 import { Products } from './components/Products.jsx';
 import { About } from './components/About.jsx';
 import { Header } from './components/Header.jsx';
+import { ProductDetails } from './components/ProductDetails.jsx';
 
 function App() {
   return (
@@ -16,9 +17,8 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />}>
-            <Route path="/products/:id" element={<Products />} />
-          </Route>
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/about-us" element={<About />} />
         </Routes>
       </div>
