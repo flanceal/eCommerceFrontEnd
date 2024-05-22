@@ -105,6 +105,9 @@ function ModalHeader({ isOpened, toggleModal }) {
       <li onClick={toggleModal}>
         <Link to={'/products'}>About Us</Link>
       </li>
+      <li onClick={toggleModal}>
+        <Link to={'/cart'}>Cart</Link>
+      </li>
     </ul>
   );
 }

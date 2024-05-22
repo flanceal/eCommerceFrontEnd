@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-export function ProductDetails() {
+export function ProductDetails({ addToCart }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -73,6 +74,7 @@ export function ProductDetails() {
             className={
               'px-4 py-2 border-4 border-banner font-medium rounded-3xl hover:bg-banner hover:text-neutral-50 transition-all duration-200'
             }
+            onClick={() => addToCart(product, quantity)}
           >
             Add to Cart
           </button>
@@ -81,3 +83,7 @@ export function ProductDetails() {
     </div>
   );
 }
+
+ProductDetails.propTypes = {
+  addToCart: PropTypes.func.isRequired,
+};
