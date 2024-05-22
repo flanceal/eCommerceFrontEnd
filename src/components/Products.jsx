@@ -19,7 +19,7 @@ export const Products = () => {
       <h1 className={'text-3xl font-medium'}>Products</h1>
       <div
         className={
-          'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 my-16'
+          'grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-8 lg:gap-12 my-16'
         }
       >
         {productsList.map((product) => (

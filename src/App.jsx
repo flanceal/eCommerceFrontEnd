@@ -9,10 +9,16 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className={'max-w-screen-xl w-full flex flex-col h-full px-16'}>
+      <div
+        className={
+          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-16'
+        }
+      >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products" element={<Products />}>
+            <Route path="/products/:id" element={<Products />} />
+          </Route>
           <Route path="/about-us" element={<About />} />
         </Routes>
       </div>
