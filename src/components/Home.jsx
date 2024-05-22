@@ -58,9 +58,21 @@ export const Home = () => {
             </button>
           </Link>
         </div>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        <ProductCard
+          title={'Aloe'}
+          price={99}
+          photoUrl={'../../public/homeComponentImages/plant.png'}
+        />
+        <ProductCard
+          title={'Aloe'}
+          price={99}
+          photoUrl={'../../public/homeComponentImages/plant.png'}
+        />
+        <ProductCard
+          title={'Aloe'}
+          price={99}
+          photoUrl={'../../public/homeComponentImages/plant.png'}
+        />
       </div>
     </>
   );
