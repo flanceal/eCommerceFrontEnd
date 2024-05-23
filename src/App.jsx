@@ -13,18 +13,22 @@ function App() {
 
   // TODO: improve readability and efficiency of addToCart, increaseProductQuantity, decreaseProductQuantity
 
-  function addToCart(product, quantity) {
+  function addToCart(product, amount) {
+    const existingProduct = cart.find((item) => item.id === product.id);
+    if (existingProduct) {
+      adjustProductQuantity(product, amount);
+    } else {
+      setCart([...cart, { ...product, quantity: amount }]);
+    }
+  }
+
+  function adjustProductQuantity(product, amount) {
     setCart((prevCart) => {
-      const existingCart = cart.find((item) => item.id === product.id);
-      if (existingCart) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      } else {
-        return [...cart, { ...product, quantity }];
-      }
+      return prevCart.map((item) =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + amount }
+          : item
+      );
     });
   }
 
@@ -33,17 +37,11 @@ function App() {
   }
 
   function increaseProductQuantity(product) {
-    setCart((prevCart) => {
-      const newCart = prevCart.filter((item) => item.id !== product.id);
-      return [...newCart, { ...product, quantity: product.quantity + 1 }];
-    });
+    adjustProductQuantity(product, 1);
   }
 
   function decreaseProductQuantity(product) {
-    setCart((prevCart) => {
-      const newCart = prevCart.filter((item) => item.id !== product.id);
-      return [...newCart, { ...product, quantity: product.quantity - 1 }];
-    });
+    adjustProductQuantity(product, -1);
   }
 
   console.log(cart);
