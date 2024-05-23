@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,12 +6,26 @@ export function ProductDetails({ addToCart }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const [isAnimationVisible, setIsAnimationVisible] = useState(false);
 
   function handleChange(event) {
     const value = event.target.value;
     if (value.length <= 2 || value === '') {
       setQuantity(parseInt(value));
     }
+  }
+
+  function showNotification() {
+    setIsNotificationVisible(true);
+    setIsAnimationVisible(true);
+
+    setTimeout(() => {
+      setIsAnimationVisible(false);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 300);
+    }, 2000);
   }
 
   useEffect(() => {
@@ -30,6 +44,20 @@ export function ProductDetails({ addToCart }) {
 
   return (
     <div className={'flex flex-col lg:flex-row  justify-around mt-32 lg:mt-48'}>
+      <Link to={'/cart'}>
+        <div
+          className={`absolute right-1 lg:right-20 top-28 transition-all duration-900 w-44 flex gap-3 p-4 bg-green-500/80 lg:bg-green-500/50 rounded-2xl ${isAnimationVisible ? 'animate-fadeInNotification' : 'animate-fadeOutNotification'} shadow-xl ${isNotificationVisible ? 'flex' : 'hidden'}`}
+        >
+          <div className={'w-7 h-7'}>
+            <img
+              src="../../public/icons/headerIcons/cart.svg"
+              alt=""
+              className={'w-full, h-full, object-contain'}
+            />
+          </div>
+          <p>Added to Cart</p>
+        </div>
+      </Link>
       <div className={'flex-1 max-w-40 lg:max-w-64 max-h-64 self-center mb-20'}>
         <img src={product.image} alt={`${product.name} image`} />
       </div>
@@ -74,7 +102,10 @@ export function ProductDetails({ addToCart }) {
             className={
               'px-4 py-2 border-4 border-banner font-medium rounded-3xl hover:bg-banner hover:text-neutral-50 transition-all duration-200'
             }
-            onClick={() => addToCart(product, quantity)}
+            onClick={() => {
+              addToCart(product, quantity);
+              showNotification();
+            }}
           >
             Add to Cart
           </button>

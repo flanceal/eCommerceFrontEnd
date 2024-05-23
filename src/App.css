@@ -7,6 +7,10 @@
   min-height: 100vh;
 }
 
+body, #root {
+  overflow-x: hidden;
+}
+
 /* For Chrome, Safari, Edge, Opera */
 .custom-number-input::-webkit-outer-spin-button,
 .custom-number-input::-webkit-inner-spin-button {

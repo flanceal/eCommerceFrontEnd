@@ -92,9 +92,7 @@ function Logo() {
 function ModalHeader({ isOpened, toggleModal }) {
   return (
     <ul
-      className={`gap-10 w-screen h-screen bg-neutral-200/30 items-center mt-16 font-medium text-2xl transition-all duration-300
-      ${isOpened ? 'flex flex-col animate-fadeIn' : 'hidden animate-fadeOut'} 
-      `}
+      className={`gap-10 w-screen h-screen bg-neutral-200/30 items-center mt-5 pt-14 font-medium text-2xl transition-all duration-300 ${isOpened ? 'flex flex-col animate-fadeInHeader' : 'hidden animate-fadeOutHeader'}`}
     >
       <li onClick={toggleModal}>
         <Link to={'/'}>Home</Link>

@@ -11,8 +11,6 @@ import { useState } from 'react';
 function App() {
   const [cart, setCart] = useState([]);
 
-  // TODO: improve readability and efficiency of addToCart, increaseProductQuantity, decreaseProductQuantity
-
   function addToCart(product, amount) {
     const existingProduct = cart.find((item) => item.id === product.id);
     if (existingProduct) {
