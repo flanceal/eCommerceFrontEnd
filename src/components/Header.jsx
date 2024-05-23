@@ -61,7 +61,9 @@ export const Header = () => {
             </Link>
           </div>
           <button
-            className={'w-11 h-11 p-2 lg:hidden'}
+            className={
+              'w-11 h-11 p-2 lg:hidden transition-all duration-150 transform hover:scale-125'
+            }
             onClick={toggleHeaderModal}
           >
             <img

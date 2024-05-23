@@ -46,7 +46,7 @@ export function ProductDetails({ addToCart }) {
     <div className={'flex flex-col lg:flex-row  justify-around mt-32 lg:mt-48'}>
       <Link to={'/cart'}>
         <div
-          className={`absolute right-1 lg:right-20 top-28 transition-all duration-900 w-44 flex gap-3 p-4 bg-green-500/80 lg:bg-green-500/50 rounded-2xl ${isAnimationVisible ? 'animate-fadeInNotification' : 'animate-fadeOutNotification'} shadow-xl ${isNotificationVisible ? 'flex' : 'hidden'}`}
+          className={`fixed right-1 lg:right-20 top-28 transition-all duration-900 w-44 flex gap-3 p-4 bg-green-500/80 lg:bg-green-500/50 rounded-2xl ${isAnimationVisible ? 'animate-fadeInNotification' : 'animate-fadeOutNotification'} shadow-xl ${isNotificationVisible ? 'flex' : 'hidden'}`}
         >
           <div className={'w-7 h-7'}>
             <img
@@ -63,15 +63,8 @@ export function ProductDetails({ addToCart }) {
       </div>
       <div className={'flex flex-col gap-4'}>
         <h1 className={'text-2xl font-medium'}>{product.title}</h1>
-        <h4 className={'text-1xl text-neutral-500'}>
-          {product.price}
-          <span className={'text-green-800'}>$</span>{' '}
-        </h4>
-        <p
-          className={
-            'max-w-140 p-4 bg-banner rounded-2xl border border-gray-400'
-          }
-        >
+        <h4 className={'text-1xl text-neutral-500'}>{product.price}$</h4>
+        <p className={'max-w-140 pl-6 italic border-l-4 border-banner'}>
           {product.description}
         </p>
         <div className={'flex gap-8'}>

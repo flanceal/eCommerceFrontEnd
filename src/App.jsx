@@ -7,6 +7,7 @@ import { Header } from './components/Header.jsx';
 import { ProductDetails } from './components/ProductDetails.jsx';
 import { Cart } from './components/Cart.jsx';
 import { useState } from 'react';
+import { Footer } from './components/Footer.jsx';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -49,7 +50,7 @@ function App() {
       <Header />
       <div
         className={
-          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-16'
+          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-16 mb-32'
         }
       >
         <Routes>
@@ -73,6 +74,7 @@ function App() {
           />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }
