@@ -11,8 +11,21 @@ import { useState } from 'react';
 function App() {
   const [cart, setCart] = useState([]);
 
+  // TODO: improve readability and efficiency of addToCart, increaseProductQuantity, decreaseProductQuantity
+
   function addToCart(product, quantity) {
-    setCart((prevCart) => [...prevCart, { ...product, quantity }]);
+    setCart((prevCart) => {
+      const existingCart = cart.find((item) => item.id === product.id);
+      if (existingCart) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      } else {
+        return [...cart, { ...product, quantity }];
+      }
+    });
   }
 
   function removeFromCart(productId) {
