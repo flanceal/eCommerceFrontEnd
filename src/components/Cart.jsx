@@ -64,15 +64,17 @@ export function Cart({
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
                     <div className={'flex gap-1 items-center'}>
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity + 1 >= 100 && 'bg-neutral-200'}`}
+                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
                         onClick={() => increaseProductQuantity(item)}
+                        disabled={item.quantity + 1 >= 100}
                       >
                         +
                       </button>
                       {item.quantity}
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity + 1 >= 100 && 'bg-neutral-200'}`}
+                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
                         onClick={() => decreaseProductQuantity(item)}
+                        disabled={item.quantity <= 1}
                       >
                         -
                       </button>

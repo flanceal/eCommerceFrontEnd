@@ -70,7 +70,8 @@ export function ProductDetails({ addToCart }) {
         <div className={'flex gap-8'}>
           <div className={'flex gap-3 text-xl'}>
             <button
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200'}`}
+              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              disabled={quantity + 1 >= 100}
               onClick={() => setQuantity((prev) => Math.min(prev + 1, 99))}
             >
               +
@@ -85,7 +86,7 @@ export function ProductDetails({ addToCart }) {
             />
             <button
               disabled={quantity <= 1}
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200'}`}
+              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
               onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
             >
               -

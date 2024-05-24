@@ -8,6 +8,7 @@ import { ProductDetails } from './components/ProductDetails.jsx';
 import { Cart } from './components/Cart.jsx';
 import { useState } from 'react';
 import { Footer } from './components/Footer.jsx';
+import { Profile } from './components/Profile.jsx';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -61,6 +62,7 @@ function App() {
             element={<ProductDetails addToCart={addToCart} />}
           />
           <Route path="/about-us" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/cart"
             element={
