@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ProductCard } from './ProductCard.jsx';
+import PropTypes from 'prop-types';
 
 export const Home = () => {
   return (
@@ -78,23 +79,29 @@ export const Home = () => {
   );
 };
 
-function Search() {
+export function Search({ value, handleOnChange, styles }) {
   return (
-    <div className={'my-6 p-3 bg-neutral-50 rounded-xl flex justify-between'}>
+    <div className={styles}>
       <input
         type="text"
-        className={
-          'focus:outline-none bg-inherit text-lg font-medium text-neutral-700 w-full'
-        }
+        className={'focus:outline-none bg-inherit w-full'}
         placeholder={'What are you looking for?'}
+        value={value}
+        onChange={handleOnChange}
       />
-      <div
+      <button
         className={
-          'w-11 h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200'
+          'w-11 h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto'
         }
       >
         <img src="../../public/icons/headerIcons/search.svg" alt="" />
-      </div>
+      </button>
     </div>
   );
 }
+
+Search.propTypes = {
+  value: PropTypes.string,
+  handleOnChange: PropTypes.func,
+  styles: PropTypes.string,
+};

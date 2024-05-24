@@ -50,7 +50,7 @@ function App() {
       <Header />
       <div
         className={
-          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-16 mb-32'
+          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32 border-2 border-red-400'
         }
       >
         <Routes>
