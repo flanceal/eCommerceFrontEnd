@@ -1,8 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ProductCard } from './ProductCard.jsx';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 export const Home = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const navigate = useNavigate();
+
+  const handleOnClickSearch = () => {
+    navigate('/products/', { state: { searchValueInput: searchValue } });
+  };
+
+  const handleOnChangeSearch = (event) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
     <>
       <div
@@ -13,7 +25,7 @@ export const Home = () => {
         <div className="flex flex-col mx-16 gap-7 my-10 z-10">
           <h1 className={'text-5xl font-bold'}>
             Buy your dream
-            <br /> plants
+            <br /> things
           </h1>
           <div className={'flex gap-3'}>
             <div className={'flex flex-col gap-1'}>
@@ -22,11 +34,18 @@ export const Home = () => {
             </div>
             <div className={'flex flex-col gap-1'}>
               <span className={'text-3xl font-medium'}>50+</span>
-              <span className={'text-lg'}>Plant Species</span>
+              <span className={'text-lg'}>Clothes Categories</span>
             </div>
           </div>
           <div className={'hidden sm:block'}>
-            <Search />
+            <Search
+              styles={
+                'my-6 min-w-72 p-2 bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
+              }
+              value={searchValue}
+              handleOnChange={handleOnChangeSearch}
+              buttonOnClick={handleOnClickSearch}
+            />
           </div>
         </div>
         <div
@@ -79,7 +98,12 @@ export const Home = () => {
   );
 };
 
-export function Search({ value, handleOnChange, styles }) {
+export function Search({
+  value,
+  handleOnChange,
+  styles,
+  buttonOnClick = null,
+}) {
   return (
     <div className={styles}>
       <input
@@ -93,6 +117,7 @@ export function Search({ value, handleOnChange, styles }) {
         className={
           'w-11 h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto'
         }
+        onClick={buttonOnClick}
       >
         <img src="../../public/icons/headerIcons/search.svg" alt="" />
       </button>
@@ -104,4 +129,5 @@ Search.propTypes = {
   value: PropTypes.string,
   handleOnChange: PropTypes.func,
   styles: PropTypes.string,
+  buttonOnClick: PropTypes.func,
 };
