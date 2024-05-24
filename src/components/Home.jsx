@@ -1,11 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ProductCard } from './ProductCard.jsx';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Home = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [productsList, setProductsList] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await fetch('https://fakestoreapi.com/products');
+      const data = await response.json();
+
+      setProductsList(data.slice(0, 3));
+    }
+
+    fetchProducts();
+  }, []);
 
   const handleOnClickSearch = () => {
     navigate('/products/', { state: { searchValueInput: searchValue } });
@@ -22,7 +34,7 @@ export const Home = () => {
           'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative'
         }
       >
-        <div className="flex flex-col mx-16 gap-7 my-10 z-10">
+        <div className="flex text-neutral-950 flex-col mx-16 gap-7 my-10 z-10">
           <h1 className={'text-5xl font-bold'}>
             Buy your dream
             <br /> things
@@ -34,13 +46,13 @@ export const Home = () => {
             </div>
             <div className={'flex flex-col gap-1'}>
               <span className={'text-3xl font-medium'}>50+</span>
-              <span className={'text-lg'}>Clothes Categories</span>
+              <span className={'text-lg'}>Clothes Products</span>
             </div>
           </div>
-          <div className={'hidden sm:block'}>
+          <div className={'sm:block'}>
             <Search
               styles={
-                'my-6 min-w-72 p-2 bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
+                'my-6 min-w-72 p-2 border-2 border-neutral-400 shadow-2xl bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
               }
               value={searchValue}
               handleOnChange={handleOnChangeSearch}
@@ -78,21 +90,15 @@ export const Home = () => {
             </button>
           </Link>
         </div>
-        <ProductCard
-          title={'Aloe'}
-          price={99}
-          photoUrl={'../../public/homeComponentImages/plant.png'}
-        />
-        <ProductCard
-          title={'Aloe'}
-          price={99}
-          photoUrl={'../../public/homeComponentImages/plant.png'}
-        />
-        <ProductCard
-          title={'Aloe'}
-          price={99}
-          photoUrl={'../../public/homeComponentImages/plant.png'}
-        />
+        {productsList.map((product) => (
+          <Link to={`/products/${product.id}`} key={product.id}>
+            <ProductCard
+              title={product.title}
+              price={product.price}
+              photoUrl={product.image}
+            />
+          </Link>
+        ))}
       </div>
     </>
   );

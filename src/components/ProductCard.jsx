@@ -15,8 +15,12 @@ export function ProductCard({ title, price, photoUrl }) {
           className={'w-full object-contain h-20 sm:h-24 lg:h-32'}
         />
       </div>
-      <h3 className={'font-medium text-xl'}>
-        {title.length >= 36 ? `${title.slice(0, 36)}...` : title}
+      <h3
+        className={
+          'font-medium text-xl max-h-14 text-ellipsis overflow-hidden line-clamp-2'
+        }
+      >
+        {title.length >= 30 ? `${title.slice(0, 30)}` : title}
       </h3>
       <h4 className={'font-medium text-neutral-400 mt-auto'}>{price}$</h4>
     </div>

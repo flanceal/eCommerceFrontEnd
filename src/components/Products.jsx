@@ -60,7 +60,7 @@ export const Products = () => {
             ))}
           </ul>
         </div>
-        <div className="lg:ml-auto grid items-center flex-grow grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-8 lg:gap-8 xl:gap-12 lg:my-16">
+        <div className="lg:ml-auto grid items-center flex-grow grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-8 lg:gap-8 xl:gap-12 lg:my-16">
           {productsList.map((product) => {
             if (selectedCategory && selectedCategory !== product.category)
               return null;
