@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from './Button.jsx';
 
 export function ProductDetails({ addToCart }) {
   const { id } = useParams();
@@ -50,7 +51,7 @@ export function ProductDetails({ addToCart }) {
         >
           <div className={'w-7 h-7'}>
             <img
-              src="../../public/icons/headerIcons/cart.svg"
+              src="/icons/headerIcons/cart.svg"
               alt=""
               className={'w-full, h-full, object-contain'}
             />
@@ -92,17 +93,14 @@ export function ProductDetails({ addToCart }) {
               -
             </button>
           </div>
-          <button
-            className={
-              'px-4 py-2 border-4 border-banner font-medium rounded-3xl hover:bg-banner hover:text-neutral-50 transition-all duration-200'
-            }
-            onClick={() => {
+          <Button
+            text={'Add to Cart'}
+            handleClick={() => {
               addToCart(product, quantity);
               showNotification();
             }}
-          >
-            Add to Cart
-          </button>
+            className={'px-4 py-2 w-fit'}
+          />
         </div>
       </div>
     </div>

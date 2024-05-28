@@ -33,7 +33,7 @@ export const About = () => {
 
       <div className={'max-w-170'}>
         <div className={'w-full mt-10'}>
-          <img src="../../public/204.jpg" alt="" className={'w-full'} />
+          <img src="/204.jpg" alt="" className={'w-full'} />
         </div>
       </div>
     </div>

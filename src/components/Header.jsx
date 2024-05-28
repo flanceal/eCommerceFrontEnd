@@ -67,7 +67,7 @@ export const Header = () => {
             onClick={toggleHeaderModal}
           >
             <img
-              src="../../public/icons/headerIcons/burger-menu.svg"
+              src="/icons/headerIcons/burger-menu.svg"
               alt="Drop down"
               className={'w-full h-full'}
             />
@@ -120,7 +120,7 @@ function HeaderIcon({ iconName }) {
       }
     >
       <img
-        src={`../../public/icons/headerIcons/${iconName}.svg`}
+        src={`/icons/headerIcons/${iconName}.svg`}
         alt={`${iconName} Icon`}
         className={'w-full'}
       />

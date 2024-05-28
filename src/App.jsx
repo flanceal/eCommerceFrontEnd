@@ -14,6 +14,7 @@ function App() {
   const [cart, setCart] = useState([]);
 
   function addToCart(product, amount) {
+    if (amount <= 0) return;
     const existingProduct = cart.find((item) => item.id === product.id);
     if (existingProduct) {
       adjustProductQuantity(product, amount);
@@ -36,11 +37,11 @@ function App() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   }
 
-  function increaseProductQuantity(product) {
+  function increaseProductQuantityByOne(product) {
     adjustProductQuantity(product, 1);
   }
 
-  function decreaseProductQuantity(product) {
+  function decreaseProductQuantityByOne(product) {
     adjustProductQuantity(product, -1);
   }
 
@@ -51,7 +52,7 @@ function App() {
       <Header />
       <div
         className={
-          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32 border-2 border-red-400'
+          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32'
         }
       >
         <Routes>
@@ -69,8 +70,8 @@ function App() {
               <Cart
                 cart={cart}
                 removeFromCart={removeFromCart}
-                increaseProductQuantity={increaseProductQuantity}
-                decreaseProductQuantity={decreaseProductQuantity}
+                increaseProductQuantity={increaseProductQuantityByOne}
+                decreaseProductQuantity={decreaseProductQuantityByOne}
               />
             }
           />

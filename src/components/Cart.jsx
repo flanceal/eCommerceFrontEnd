@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Button } from './Button.jsx';
 // import { useState } from 'react';
 
 export function Cart({
@@ -85,12 +86,11 @@ export function Cart({
                       <span>
                         {formatNumber(item.quantity * item.price, 2)}$
                       </span>
-                      <button
-                        className={'py-2 px-3 bg-banner rounded-2xl ml-auto'}
+                      <Button
+                        text={'Remove'}
                         onClick={() => removeFromCart(item.id)}
-                      >
-                        Remove
-                      </button>
+                        className={'w-fit text-base px-3 ml-auto'}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -112,13 +112,12 @@ export function Cart({
       </div>
       <div className={'flex flex-col mt-16 self-end'}>
         <p>Total: {formatNumber(totalSum, 2)}$</p>
-        <button
+        <Button
+          text={'Checkout'}
           className={
             'px-4 py-2 border-2 border-banner bg-banner text-neutral-50 hover:text-banner hover:bg-neutral-50 transition-all duration-200 rounded-2xl'
           }
-        >
-          Checkout
-        </button>
+        />
       </div>
     </div>
   );

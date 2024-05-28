@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ProductCard } from './ProductCard.jsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { Button } from './Button.jsx';
 
 export const Home = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -67,7 +68,7 @@ export const Home = () => {
         >
           <div className={'w-110'}>
             <img
-              src="../../public/homeComponentImages/plantBanner.png"
+              src="/homeComponentImages/plantBanner.png"
               alt="Plant Banner"
               className={'w-full h-full'}
             />
@@ -81,13 +82,7 @@ export const Home = () => {
             Easiest way to healthy life by buying your favorite plants
           </p>
           <Link to={'/products'} className={''}>
-            <button
-              className={
-                'p-3 bg-banner text-start rounded-xl font-medium text-lg hover:bg-neutral-200 hover:scale-105 transition-all duration-200 w-full'
-              }
-            >
-              See more →
-            </button>
+            <Button text={'See more →'} />
           </Link>
         </div>
         {productsList.map((product) => (
@@ -119,14 +114,13 @@ export function Search({
         value={value}
         onChange={handleOnChange}
       />
-      <button
+      <Button
+        icon={'/icons/headerIcons/search.svg'}
+        handleClick={buttonOnClick}
         className={
-          'w-11 h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto'
+          'w-fit h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto justify-center'
         }
-        onClick={buttonOnClick}
-      >
-        <img src="../../public/icons/headerIcons/search.svg" alt="" />
-      </button>
+      />
     </div>
   );
 }
