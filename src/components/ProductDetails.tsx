@@ -1,16 +1,20 @@
-import { Link, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from './Button.jsx';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import IProduct from '../types/product.types.js';
+import ProductDetailsProps from '../types/ProductDetailsProps.js';
+import { Button } from './Button.js';
 
-export function ProductDetails({ addToCart }) {
+export const ProductDetails: React.FC<ProductDetailsProps> = ({
+  addToCart,
+}) => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<IProduct | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [isAnimationVisible, setIsAnimationVisible] = useState(false);
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     if (value.length <= 2 || value === '') {
       setQuantity(parseInt(value));
@@ -105,7 +109,7 @@ export function ProductDetails({ addToCart }) {
       </div>
     </div>
   );
-}
+};
 
 ProductDetails.propTypes = {
   addToCart: PropTypes.func.isRequired,

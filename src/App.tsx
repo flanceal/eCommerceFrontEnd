@@ -1,47 +1,53 @@
-import './App.css';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Home } from './components/Home.jsx';
-import { Products } from './components/Products.jsx';
-import { About } from './components/About.jsx';
-import { Header } from './components/Header.jsx';
-import { ProductDetails } from './components/ProductDetails.jsx';
-import { Cart } from './components/Cart.jsx';
 import { useState } from 'react';
-import { Footer } from './components/Footer.jsx';
-import { Profile } from './components/Profile.jsx';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import About from './components/About';
+import { Cart } from './components/Cart';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
+import { Home } from './components/Home';
+import { ProductDetails } from './components/ProductDetails';
+import { Products } from './components/Products';
+import { Profile } from './components/Profile';
+import ICart from './types/cart.types';
+import IProduct from './types/product.types';
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<ICart[]>([]);
 
-  function addToCart(product, amount) {
+  function addToCart(product: IProduct, amount: number) {
     if (amount <= 0) return;
-    const existingProduct = cart.find((item) => item.id === product.id);
+    const existingProduct = cart.find(
+      (item: IProduct) => item.id === product.id
+    );
     if (existingProduct) {
       adjustProductQuantity(product, amount);
     } else {
-      setCart([...cart, { ...product, quantity: amount }]);
+      setCart([...cart, { ...product, amount }]);
     }
   }
 
-  function adjustProductQuantity(product, amount) {
+  function adjustProductQuantity(product: IProduct, amountToAdd: number) {
     setCart((prevCart) => {
       return prevCart.map((item) =>
         item.id === product.id
-          ? { ...item, quantity: item.quantity + amount }
+          ? { ...item, amount: item.amount + amountToAdd }
           : item
       );
     });
   }
 
-  function removeFromCart(productId) {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  function removeFromCart(productId: string) {
+    setCart((prevCart) =>
+      prevCart.filter((item: IProduct) => item.id !== productId)
+    );
   }
 
-  function increaseProductQuantityByOne(product) {
+  function increaseProductQuantityByOne(product: IProduct) {
     adjustProductQuantity(product, 1);
   }
 
-  function decreaseProductQuantityByOne(product) {
+  function decreaseProductQuantityByOne(product: IProduct) {
     adjustProductQuantity(product, -1);
   }
 

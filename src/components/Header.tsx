@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
-  const [pageOpened, setPageOpened] = useState('Home');
+  const [pageOpened, setPageOpened] = useState<string | null>('Home');
   const [modalView, setModalView] = useState(false);
 
-  function handleOpen(event) {
+  function handleOpen(event: React.MouseEvent<HTMLLIElement>) {
     setPageOpened(event.currentTarget.textContent);
   }
 
@@ -91,7 +91,12 @@ function Logo() {
   );
 }
 
-function ModalHeader({ isOpened, toggleModal }) {
+interface ModalHeaderProps {
+  isOpened: boolean;
+  toggleModal: () => void;
+}
+
+const ModalHeader: React.FC<ModalHeaderProps> = ({ isOpened, toggleModal }) => {
   return (
     <ul
       className={`gap-10 w-screen h-screen bg-neutral-200/30 items-center mt-5 pt-14 font-medium text-2xl transition-all duration-300 ${isOpened ? 'flex flex-col animate-fadeInHeader' : 'hidden animate-fadeOutHeader'}`}
@@ -110,9 +115,13 @@ function ModalHeader({ isOpened, toggleModal }) {
       </li>
     </ul>
   );
+};
+
+interface HeaderIconProps {
+  iconName: string;
 }
 
-function HeaderIcon({ iconName }) {
+const HeaderIcon: React.FC<HeaderIconProps> = ({ iconName }) => {
   return (
     <div
       className={
@@ -126,13 +135,4 @@ function HeaderIcon({ iconName }) {
       />
     </div>
   );
-}
-
-HeaderIcon.propTypes = {
-  iconName: PropTypes.string,
-};
-
-ModalHeader.propTypes = {
-  isOpened: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };

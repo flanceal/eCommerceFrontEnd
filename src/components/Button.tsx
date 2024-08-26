@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ButtonProps from '../types/button.types';
 
-export const Button = ({
+export const Button: React.FC<ButtonProps> = ({
   text,
   icon: iconPath = null,
-  handleClick = null,
+  handleClick,
   className = '',
 }) => {
   return (
@@ -21,11 +21,4 @@ export const Button = ({
       </button>
     </>
   );
-};
-
-Button.propTypes = {
-  text: PropTypes.string,
-  icon: PropTypes.string,
-  handleClick: PropTypes.func,
-  className: PropTypes.string,
 };

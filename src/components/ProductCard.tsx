@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
+import React from 'react';
+import ProductCardProps from '../types/ProductCardProps';
 
-export function ProductCard({ title, price, photoUrl }) {
+export const ProductCard: React.FC<ProductCardProps> = ({
+  title,
+  price,
+  photoUrl,
+}) => {
   return (
     <div
       className={
@@ -25,10 +31,4 @@ export function ProductCard({ title, price, photoUrl }) {
       <h4 className={'font-medium text-neutral-400 mt-auto'}>{price}$</h4>
     </div>
   );
-}
-
-ProductCard.propTypes = {
-  title: PropTypes.string,
-  price: PropTypes.number,
-  photoUrl: PropTypes.string,
 };

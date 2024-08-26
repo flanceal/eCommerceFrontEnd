@@ -1,4 +1,4 @@
-export const About = () => {
+const About = () => {
   return (
     <div className={'w-full mt-40 flex flex-col items-center'}>
       <div className={'max-w-170'}>
@@ -9,4 +9,5 @@ export const About = () => {
     </div>
   );
 };
-// test
+
+export default About;

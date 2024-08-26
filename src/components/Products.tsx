@@ -1,15 +1,16 @@
+import { string } from 'prop-types';
 import { useEffect, useState } from 'react';
-import { ProductCard } from './ProductCard.jsx';
 import { Link, useLocation } from 'react-router-dom';
-import { Search } from './Home.jsx';
-// import PropTypes from 'prop-types';
+import IProduct from '../types/product.types.js';
+import { Search } from './Home.js';
+import { ProductCard } from './ProductCard.js';
 
-function capitalize(str) {
+function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export const Products = () => {
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState<IProduct[]>([]);
   const { state } = useLocation();
   const { searchValueInput = '' } = state || {}; // Provide a default value
 
@@ -26,7 +27,7 @@ export const Products = () => {
     fetchProducts();
   }, []);
 
-  const productCategories = [];
+  const productCategories: string[] = [];
   productsList.forEach((product) => {
     if (!productCategories.includes(product.category)) {
       productCategories.push(product.category);
@@ -93,7 +94,3 @@ export const Products = () => {
     </div>
   );
 };
-//
-// Products.propTypes = {
-//   searchValueInput: PropTypes.string,
-// };

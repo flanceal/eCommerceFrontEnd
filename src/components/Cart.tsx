@@ -1,20 +1,23 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Button } from './Button.jsx';
+import ICart from '../types/cart.types';
+import ICartComponent from '../types/cartComponent.types';
+import IProduct from '../types/product.types';
+import { Button } from './Button';
 // import { useState } from 'react';
 
-export function Cart({
+export const Cart: React.FC<ICartComponent> = ({
   cart,
   removeFromCart,
-  increaseProductQuantity,
-  decreaseProductQuantity,
-}) {
-  function formatNumber(value, decimals) {
+  increaseProductAmount,
+  decreaseProductAmount,
+}) => {
+  function formatNumber(value: number, decimals: number) {
     return Number(value.toFixed(decimals));
   }
 
-  const totalSum = cart.reduce((acc, item) => {
-    acc += item.price * item.quantity;
+  const totalSum = cart.reduce((acc: number, item: ICart) => {
+    acc += item.price * item.amount;
     return acc;
   }, 0);
 
@@ -41,7 +44,7 @@ export function Cart({
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => (
+              {cart.map((item: ICart) => (
                 <tr key={item.id} className="border-b hover:bg-gray-100">
                   <td className="px-2 py-2 sm:px-4 sm:py-2">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
@@ -65,17 +68,17 @@ export function Cart({
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
                     <div className={'flex gap-1 items-center'}>
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
-                        onClick={() => increaseProductQuantity(item)}
-                        disabled={item.quantity + 1 >= 100}
+                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.amount + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+                        onClick={() => increaseProductAmount(item)}
+                        disabled={item.amount + 1 >= 100}
                       >
                         +
                       </button>
-                      {item.quantity}
+                      {item.amount}
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
-                        onClick={() => decreaseProductQuantity(item)}
-                        disabled={item.quantity <= 1}
+                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.amount - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
+                        onClick={() => decreaseProductAmount(item)}
+                        disabled={item.amount <= 1}
                       >
                         -
                       </button>
@@ -83,9 +86,7 @@ export function Cart({
                   </td>
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
                     <div className={'flex gap-1 items-center w-full'}>
-                      <span>
-                        {formatNumber(item.quantity * item.price, 2)}$
-                      </span>
+                      <span>{formatNumber(item.amount * item.price, 2)}$</span>
                       <Button
                         text={'Remove'}
                         onClick={() => removeFromCart(item.id)}
@@ -121,11 +122,4 @@ export function Cart({
       </div>
     </div>
   );
-}
-
-Cart.propTypes = {
-  cart: PropTypes.array.isRequired,
-  removeFromCart: PropTypes.func.isRequired,
-  increaseProductQuantity: PropTypes.func.isRequired,
-  decreaseProductQuantity: PropTypes.func.isRequired,
 };

@@ -1,8 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { ProductCard } from './ProductCard.jsx';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { Button } from './Button.jsx';
+
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import IProduct from '../types/product.types.js';
+import { Button } from './Button.js';
+import { ProductCard } from './ProductCard.js';
 
 export const Home = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -20,12 +22,16 @@ export const Home = () => {
     fetchProducts();
   }, []);
 
-  const handleOnClickSearch = () => {
-    navigate('/products/', { state: { searchValueInput: searchValue } });
+  const handleOnChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
-  const handleOnChangeSearch = (event) => {
-    setSearchValue(event.target.value);
+  const handleOnClick = () => {
+    navigate('/products');
+  };
+
+  const handleOnClickSearch = () => {
+    navigate('/products/', { state: { searchValueInput: searchValue } });
   };
 
   return (
@@ -82,10 +88,10 @@ export const Home = () => {
             Easiest way to healthy life by buying your favorite plants
           </p>
           <Link to={'/products'} className={''}>
-            <Button text={'See more →'} />
+            <Button text={'See more →'} handleClick={handleOnClick} />
           </Link>
         </div>
-        {productsList.map((product) => (
+        {productsList.map((product: IProduct) => (
           <Link to={`/products/${product.id}`} key={product.id}>
             <ProductCard
               title={product.title}
@@ -99,12 +105,19 @@ export const Home = () => {
   );
 };
 
-export function Search({
+interface SearchProps {
+  value: string;
+  handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  buttonOnClick?: () => void;
+  styles: string;
+}
+
+export const Search: React.FC<SearchProps> = ({
   value,
   handleOnChange,
   styles,
-  buttonOnClick = null,
-}) {
+  buttonOnClick,
+}) => {
   return (
     <div className={styles}>
       <input
@@ -123,11 +136,4 @@ export function Search({
       />
     </div>
   );
-}
-
-Search.propTypes = {
-  value: PropTypes.string,
-  handleOnChange: PropTypes.func,
-  styles: PropTypes.string,
-  buttonOnClick: PropTypes.func,
 };
