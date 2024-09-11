@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -125,7 +124,7 @@ const HeaderIcon: React.FC<HeaderIconProps> = ({ iconName }) => {
   return (
     <div
       className={
-        'w-10 h-10 p-1.5 rounded-full hover:bg-neutral-300 transition-all duration-200'
+        'w-10 h-9 p-1.5 rounded-full hover:bg-neutral-300 transition-all duration-200'
       }
     >
       <img

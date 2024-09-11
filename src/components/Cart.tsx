@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ICart from '../types/cart.types';
 import ICartComponent from '../types/cartComponent.types';
-import IProduct from '../types/product.types';
 import { Button } from './Button';
-// import { useState } from 'react';
 
 export const Cart: React.FC<ICartComponent> = ({
   cart,
@@ -55,7 +53,7 @@ export const Cart: React.FC<ICartComponent> = ({
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <p className="hover:text-slate-700">
+                      <p className="hover:text-indigo-700">
                         <Link
                           to={`/products/${item.id}`}
                         >{`${item.title.slice(0, 12)}...`}</Link>
@@ -68,7 +66,7 @@ export const Cart: React.FC<ICartComponent> = ({
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
                     <div className={'flex gap-1 items-center'}>
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.amount + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+                        className={`px-3 py-1.5 bg-indigo-200 hover:bg-indigo-400 rounded-full ${item.amount + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
                         onClick={() => increaseProductAmount(item)}
                         disabled={item.amount + 1 >= 100}
                       >
@@ -76,7 +74,7 @@ export const Cart: React.FC<ICartComponent> = ({
                       </button>
                       {item.amount}
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.amount - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
+                        className={`px-3 py-1.5 bg-indigo-200 hover:bg-indigo-400 rounded-full ${item.amount - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
                         onClick={() => decreaseProductAmount(item)}
                         disabled={item.amount <= 1}
                       >
@@ -89,7 +87,7 @@ export const Cart: React.FC<ICartComponent> = ({
                       <span>{formatNumber(item.amount * item.price, 2)}$</span>
                       <Button
                         text={'Remove'}
-                        onClick={() => removeFromCart(item.id)}
+                        handleClick={() => removeFromCart(item.id)}
                         className={'w-fit text-base px-3 ml-auto'}
                       />
                     </div>
@@ -103,7 +101,9 @@ export const Cart: React.FC<ICartComponent> = ({
             <h2 className={'font-medium text-2xl'}>Your cart is empty</h2>
             <Link to={'/products'}>
               <button
-                className={'px-4 py-2 bg-banner text-neutral-50 rounded-2xl'}
+                className={
+                  'px-4 py-2 bg-indigo-200 text-neutral-50 rounded-2xl'
+                }
               >
                 Start shopping
               </button>
@@ -116,7 +116,7 @@ export const Cart: React.FC<ICartComponent> = ({
         <Button
           text={'Checkout'}
           className={
-            'px-4 py-2 border-2 border-banner bg-banner text-neutral-50 hover:text-banner hover:bg-neutral-50 transition-all duration-200 rounded-2xl'
+            'px-4 py-2 border-2 border-banner bg-indigo-200 text-neutral-50 hover:text-banner hover:bg-neutral-50 transition-all duration-200 rounded-2xl'
           }
         />
       </div>

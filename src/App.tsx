@@ -58,7 +58,7 @@ function App() {
       <Header />
       <div
         className={
-          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32'
+          'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32 '
         }
       >
         <Routes>
@@ -76,8 +76,8 @@ function App() {
               <Cart
                 cart={cart}
                 removeFromCart={removeFromCart}
-                increaseProductQuantity={increaseProductQuantityByOne}
-                decreaseProductQuantity={decreaseProductQuantityByOne}
+                increaseProductAmount={increaseProductQuantityByOne}
+                decreaseProductAmount={decreaseProductQuantityByOne}
               />
             }
           />

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import IProduct from '../types/product.types.js';
@@ -38,7 +36,7 @@ export const Home = () => {
     <>
       <div
         className={
-          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative'
+          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative bg-indigo-200'
         }
       >
         <div className="flex text-neutral-950 flex-col mx-16 gap-7 my-10 z-10">
@@ -59,7 +57,7 @@ export const Home = () => {
           <div className={'sm:block'}>
             <Search
               styles={
-                'my-6 min-w-72 p-2 border-2 border-neutral-400 shadow-2xl bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
+                'my-6 min-w-60 p-2 border-2 border-neutral-400 shadow-2xl bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
               }
               value={searchValue}
               handleOnChange={handleOnChangeSearch}
@@ -88,7 +86,11 @@ export const Home = () => {
             Easiest way to healthy life by buying your favorite plants
           </p>
           <Link to={'/products'} className={''}>
-            <Button text={'See more →'} handleClick={handleOnClick} />
+            <Button
+              text={'See more →'}
+              handleClick={handleOnClick}
+              className="w-full"
+            />
           </Link>
         </div>
         {productsList.map((product: IProduct) => (
@@ -122,7 +124,9 @@ export const Search: React.FC<SearchProps> = ({
     <div className={styles}>
       <input
         type="text"
-        className={'focus:outline-none bg-inherit w-full'}
+        className={
+          'focus:outline-none bg-inherit w-fit flex-grow-1 flex-shrink-1'
+        }
         placeholder={'What are you looking for?'}
         value={value}
         onChange={handleOnChange}
@@ -131,7 +135,8 @@ export const Search: React.FC<SearchProps> = ({
         icon={'/icons/headerIcons/search.svg'}
         handleClick={buttonOnClick}
         className={
-          'w-fit h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto justify-center'
+          'p-3  rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 justify-center w-12'
+          // flex-grow-0 flex-shrink-0
         }
       />
     </div>

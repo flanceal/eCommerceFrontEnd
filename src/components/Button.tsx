@@ -11,7 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
     <>
       <button
         className={classNames(
-          'p-3 bg-banner text-start rounded-xl font-medium text-lg hover:bg-neutral-200 hover:scale-105 transition-all duration-200 w-full flex gap-3 items-center',
+          'p-3 bg-indigo-200 text-start rounded-xl font-medium text-lg hover:bg-neutral-200 hover:scale-105 transition-all duration-200 flex gap-3 items-center',
           className
         )}
         onClick={handleClick}

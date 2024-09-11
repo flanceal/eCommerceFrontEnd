@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import IProduct from '../types/product.types.js';
@@ -63,7 +62,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
           <p>Added to Cart</p>
         </div>
       </Link>
-      <div className={'flex-1 max-w-40 lg:max-w-64 max-h-64 self-center mb-20'}>
+      <div className={'max-w-40 lg:max-w-64 max-h-64 self-center mb-20 mr-12'}>
         <img src={product.image} alt={`${product.name} image`} />
       </div>
       <div className={'flex flex-col gap-4'}>
@@ -75,7 +74,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
         <div className={'flex gap-8'}>
           <div className={'flex gap-3 text-xl'}>
             <button
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1.5 bg-indigo-300 hover:bg-indigo-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
               disabled={quantity + 1 >= 100}
               onClick={() => setQuantity((prev) => Math.min(prev + 1, 99))}
             >
@@ -91,7 +90,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
             />
             <button
               disabled={quantity <= 1}
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1.5 bg-indigo-300 hover:bg-indigo-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
               onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
             >
               -
@@ -109,8 +108,4 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
       </div>
     </div>
   );
-};
-
-ProductDetails.propTypes = {
-  addToCart: PropTypes.func.isRequired,
 };
