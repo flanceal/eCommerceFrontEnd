@@ -6,3 +6,9 @@ body {
   min-width: 100vw;
   width: 100vw;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

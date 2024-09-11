@@ -17,7 +17,8 @@ body {
   box-sizing: border-box;
 }
 
-body, #root {
+body,
+#root {
   /*overflow-x: hidden;*/
 }
 
@@ -29,7 +30,7 @@ body, #root {
 }
 
 /* For Firefox */
-.custom-number-input[type=number] {
+.custom-number-input[type='number'] {
   -moz-appearance: textfield;
 }
 

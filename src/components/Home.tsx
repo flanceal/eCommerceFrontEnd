@@ -36,7 +36,7 @@ export const Home = () => {
     <>
       <div
         className={
-          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative bg-indigo-200'
+          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative bg-indigo-100'
         }
       >
         <div className="flex text-neutral-950 flex-col mx-16 gap-7 my-10 z-10">
@@ -89,7 +89,7 @@ export const Home = () => {
             <Button
               text={'See more →'}
               handleClick={handleOnClick}
-              className="w-full"
+              className="w-full bg-indigo-100 "
             />
           </Link>
         </div>
@@ -135,7 +135,7 @@ export const Search: React.FC<SearchProps> = ({
         icon={'/icons/headerIcons/search.svg'}
         handleClick={buttonOnClick}
         className={
-          'p-3  rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 justify-center w-12'
+          'p-3  rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 justify-center w-12 bg-indigo-100'
           // flex-grow-0 flex-shrink-0
         }
       />

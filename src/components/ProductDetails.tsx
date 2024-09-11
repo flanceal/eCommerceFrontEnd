@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import IProduct from '../types/product.types.js';
 import ProductDetailsProps from '../types/ProductDetailsProps.js';
 import { Button } from './Button.js';
@@ -68,41 +69,44 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
       <div className={'flex flex-col gap-4'}>
         <h1 className={'text-2xl font-medium'}>{product.title}</h1>
         <h4 className={'text-1xl text-neutral-500'}>{product.price}$</h4>
-        <p className={'max-w-140 pl-6 italic border-l-4 border-banner'}>
+        <p
+          className={
+            'max-w-140 pl-6 italic border-l-4 border-indigo-400 border-banner'
+          }
+        >
           {product.description}
         </p>
         <div className={'flex gap-8'}>
-          <div className={'flex gap-3 text-xl'}>
+          <div className={'flex items-center gap-3 text-xl'}>
             <button
-              className={`px-3 py-1.5 bg-indigo-300 hover:bg-indigo-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1 bg-slate-50 rounded-full  border-2 border-indigo-400 hover:border-indigo-600 ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200  border-zinc-700 hover:border-zinc-400'}`}
               disabled={quantity + 1 >= 100}
               onClick={() => setQuantity((prev) => Math.min(prev + 1, 99))}
             >
               +
             </button>
-            <input
-              type="number"
-              value={quantity}
-              onChange={handleChange}
-              min={'1'}
-              max={'99'}
-              className={'w-10 text-center custom-number-input'}
-            />
+            <span className={'w-10 text-center custom-number-input'}>
+              {quantity}
+            </span>
             <button
               disabled={quantity <= 1}
-              className={`px-3 py-1.5 bg-indigo-300 hover:bg-indigo-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1 bg-slate-50 hover:border-indigo-600 rounded-full 200 border-2 border-indigo-400 ${quantity - 1 <= 0 && 'bg-neutral-200 border-zinc-400 hover:border-zinc-400'}`}
               onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
             >
               -
             </button>
           </div>
           <Button
-            text={'Add to Cart'}
+            text={'ADD TO CART'}
             handleClick={() => {
               addToCart(product, quantity);
-              showNotification();
+              toast('Added to the cart', {
+                description: 'Visit your cart to see added products',
+              });
             }}
-            className={'px-4 py-2 w-fit'}
+            className={
+              'px-4 py-2 w-fit border-2 border-indigo-400 bg-slate-50 hover:bg-slate-50'
+            }
           />
         </div>
       </div>

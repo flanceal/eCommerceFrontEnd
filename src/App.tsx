@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -84,6 +85,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
+      <Toaster />
     </BrowserRouter>
   );
 }

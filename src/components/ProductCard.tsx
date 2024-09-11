@@ -22,7 +22,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
       <h3
         className={
-          'font-medium text-xl max-h-14 text-ellipsis overflow-hidden line-clamp-2'
+          'font-medium text-xl max-h-14 text-ellipsis overflow-hidden line-clamp-2 hover:text-indigo-800'
         }
       >
         {title.length >= 30 ? `${title.slice(0, 30)}` : title}

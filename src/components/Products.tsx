@@ -52,7 +52,7 @@ export const Products = () => {
               // TODO: Make key UUID
               <li
                 key={index}
-                className={`border-2 transition-all duration-200 border-banner p-3 w-full max-w-36 text-center lg:max-w-96 hover:bg-indigo-200 ${category === selectedCategory && 'bg-indigo-200'}`}
+                className={`border-2 transition-all duration-200 border-banner p-3 w-full max-w-36 text-center lg:max-w-96 hover:bg-indigo-100 ${category === selectedCategory && 'bg-indigo-100'}`}
                 onClick={() => setSelectedCategory(category)}
               >
                 <button>{capitalize(category)}</button>
