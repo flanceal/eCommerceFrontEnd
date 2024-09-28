@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,15 @@ export const Header = () => {
 
   function toggleHeaderModal() {
     setModalView((prevState) => !prevState);
+  }
+
+  let headerClasses: string;
+  if (modalView) {
+    headerClasses =
+      'flex flex-col justify-center items-center px-16 py-6 border-b-2 w-full  bg-neutral-200/30 fixed z-30';
+  } else {
+    headerClasses =
+      'flex flex-col justify-center items-center px-16 py-6 border-b-2 w-full bg-zinc-50/90 fixed z-30';
   }
 
   return (
@@ -65,11 +75,15 @@ export const Header = () => {
             }
             onClick={toggleHeaderModal}
           >
-            <img
-              src="/icons/headerIcons/burger-menu.svg"
-              alt="Drop down"
-              className={'w-full h-full'}
-            />
+            {modalView ? (
+              <CloseIcon />
+            ) : (
+              <img
+                src="/icons/headerIcons/burger-menu.svg"
+                alt="Drop down"
+                className={'w-full h-full'}
+              />
+            )}
           </button>
         </ul>
       </nav>
