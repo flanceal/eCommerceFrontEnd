@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ProductCard } from './ProductCard.jsx';
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { Button } from './Button.jsx';
+import IProduct from '../types/product.types.js';
+import { Button } from './Button.js';
+import { ProductCard } from './ProductCard.js';
 
 export const Home = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -20,19 +20,23 @@ export const Home = () => {
     fetchProducts();
   }, []);
 
-  const handleOnClickSearch = () => {
-    navigate('/products/', { state: { searchValueInput: searchValue } });
+  const handleOnChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
-  const handleOnChangeSearch = (event) => {
-    setSearchValue(event.target.value);
+  const handleOnClick = () => {
+    navigate('/products');
+  };
+
+  const handleOnClickSearch = () => {
+    navigate('/products/', { state: { searchValueInput: searchValue } });
   };
 
   return (
     <>
       <div
         className={
-          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative'
+          'grid lg:grid-cols-2 gap-4 mt-32 bg-banner rounded-3xl max-h-110 h-full min-h-110 relative bg-indigo-100'
         }
       >
         <div className="flex text-neutral-950 flex-col mx-16 gap-7 my-10 z-10">
@@ -53,7 +57,7 @@ export const Home = () => {
           <div className={'sm:block'}>
             <Search
               styles={
-                'my-6 min-w-72 p-2 border-2 border-neutral-400 shadow-2xl bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
+                'my-6 min-w-60 p-2 border-2 border-neutral-400 shadow-2xl bg-neutral-50 rounded-xl text-medium font-medium flex justify-between text-neutral-700 border'
               }
               value={searchValue}
               handleOnChange={handleOnChangeSearch}
@@ -82,10 +86,14 @@ export const Home = () => {
             Easiest way to healthy life by buying your favorite plants
           </p>
           <Link to={'/products'} className={''}>
-            <Button text={'See more →'} />
+            <Button
+              text={'See more →'}
+              handleClick={handleOnClick}
+              className="w-full bg-indigo-100 "
+            />
           </Link>
         </div>
-        {productsList.map((product) => (
+        {productsList.map((product: IProduct) => (
           <Link to={`/products/${product.id}`} key={product.id}>
             <ProductCard
               title={product.title}
@@ -99,17 +107,26 @@ export const Home = () => {
   );
 };
 
-export function Search({
+interface SearchProps {
+  value: string;
+  handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  buttonOnClick?: () => void;
+  styles: string;
+}
+
+export const Search: React.FC<SearchProps> = ({
   value,
   handleOnChange,
   styles,
-  buttonOnClick = null,
-}) {
+  buttonOnClick,
+}) => {
   return (
     <div className={styles}>
       <input
         type="text"
-        className={'focus:outline-none bg-inherit w-full'}
+        className={
+          'focus:outline-none bg-inherit w-fit flex-grow-1 flex-shrink-1'
+        }
         placeholder={'What are you looking for?'}
         value={value}
         onChange={handleOnChange}
@@ -118,16 +135,10 @@ export function Search({
         icon={'/icons/headerIcons/search.svg'}
         handleClick={buttonOnClick}
         className={
-          'w-fit h-11 p-3 rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 ml-auto justify-center'
+          'p-3  rounded-2xl bg-banner hover:bg-blue-100 transition-all duration-200 justify-center w-12 bg-indigo-100'
+          // flex-grow-0 flex-shrink-0
         }
       />
     </div>
   );
-}
-
-Search.propTypes = {
-  value: PropTypes.string,
-  handleOnChange: PropTypes.func,
-  styles: PropTypes.string,
-  buttonOnClick: PropTypes.func,
 };

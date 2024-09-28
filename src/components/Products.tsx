@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { ProductCard } from './ProductCard.jsx';
 import { Link, useLocation } from 'react-router-dom';
-import { Search } from './Home.jsx';
-// import PropTypes from 'prop-types';
+import IProduct from '../types/product.types.js';
+import { Search } from './Home.js';
+import { ProductCard } from './ProductCard.js';
 
-function capitalize(str) {
+function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export const Products = () => {
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState<IProduct[]>([]);
   const { state } = useLocation();
   const { searchValueInput = '' } = state || {}; // Provide a default value
 
@@ -26,7 +26,7 @@ export const Products = () => {
     fetchProducts();
   }, []);
 
-  const productCategories = [];
+  const productCategories: string[] = [];
   productsList.forEach((product) => {
     if (!productCategories.includes(product.category)) {
       productCategories.push(product.category);
@@ -52,7 +52,7 @@ export const Products = () => {
               // TODO: Make key UUID
               <li
                 key={index}
-                className={`border-2 transition-all duration-200 border-banner p-3 w-full max-w-36 text-center lg:max-w-96 hover:bg-banner hover:text-neutral-50 ${category === selectedCategory && 'text-neutral-50 bg-banner'}`}
+                className={`border-2 transition-all duration-200 border-banner p-3 w-full max-w-36 text-center lg:max-w-96 hover:bg-indigo-100 ${category === selectedCategory && 'bg-indigo-100'}`}
                 onClick={() => setSelectedCategory(category)}
               >
                 <button>{capitalize(category)}</button>
@@ -93,7 +93,3 @@ export const Products = () => {
     </div>
   );
 };
-//
-// Products.propTypes = {
-//   searchValueInput: PropTypes.string,
-// };

@@ -1,16 +1,20 @@
-import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button } from './Button.jsx';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
+import IProduct from '../types/product.types.js';
+import ProductDetailsProps from '../types/ProductDetailsProps.js';
+import { Button } from './Button.js';
 
-export function ProductDetails({ addToCart }) {
+export const ProductDetails: React.FC<ProductDetailsProps> = ({
+  addToCart,
+}) => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<IProduct | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [isAnimationVisible, setIsAnimationVisible] = useState(false);
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     if (value.length <= 2 || value === '') {
       setQuantity(parseInt(value));
@@ -59,54 +63,53 @@ export function ProductDetails({ addToCart }) {
           <p>Added to Cart</p>
         </div>
       </Link>
-      <div className={'flex-1 max-w-40 lg:max-w-64 max-h-64 self-center mb-20'}>
+      <div className={'max-w-40 lg:max-w-64 max-h-64 self-center mb-20 mr-12'}>
         <img src={product.image} alt={`${product.name} image`} />
       </div>
       <div className={'flex flex-col gap-4'}>
         <h1 className={'text-2xl font-medium'}>{product.title}</h1>
         <h4 className={'text-1xl text-neutral-500'}>{product.price}$</h4>
-        <p className={'max-w-140 pl-6 italic border-l-4 border-banner'}>
+        <p
+          className={
+            'max-w-140 pl-6 italic border-l-4 border-indigo-400 border-banner'
+          }
+        >
           {product.description}
         </p>
         <div className={'flex gap-8'}>
-          <div className={'flex gap-3 text-xl'}>
+          <div className={'flex items-center gap-3 text-xl'}>
             <button
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1 bg-slate-50 rounded-full  border-2 border-indigo-400 hover:border-indigo-600 ${quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200  border-zinc-700 hover:border-zinc-400'}`}
               disabled={quantity + 1 >= 100}
               onClick={() => setQuantity((prev) => Math.min(prev + 1, 99))}
             >
               +
             </button>
-            <input
-              type="number"
-              value={quantity}
-              onChange={handleChange}
-              min={'1'}
-              max={'99'}
-              className={'w-10 text-center custom-number-input'}
-            />
+            <span className={'w-10 text-center custom-number-input'}>
+              {quantity}
+            </span>
             <button
               disabled={quantity <= 1}
-              className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+              className={`px-3 py-1 bg-slate-50 hover:border-indigo-600 rounded-full 200 border-2 border-indigo-400 ${quantity - 1 <= 0 && 'bg-neutral-200 border-zinc-400 hover:border-zinc-400'}`}
               onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
             >
               -
             </button>
           </div>
           <Button
-            text={'Add to Cart'}
+            text={'ADD TO CART'}
             handleClick={() => {
               addToCart(product, quantity);
-              showNotification();
+              toast('Added to the cart', {
+                description: 'Visit your cart to see added products',
+              });
             }}
-            className={'px-4 py-2 w-fit'}
+            className={
+              'px-4 py-2 w-fit border-2 border-indigo-400 bg-slate-50 hover:bg-slate-50'
+            }
           />
         </div>
       </div>
     </div>
   );
-}
-
-ProductDetails.propTypes = {
-  addToCart: PropTypes.func.isRequired,
 };

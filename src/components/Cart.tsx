@@ -1,20 +1,21 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Button } from './Button.jsx';
-// import { useState } from 'react';
+import ICart from '../types/cart.types';
+import ICartComponent from '../types/cartComponent.types';
+import { Button } from './Button';
 
-export function Cart({
+export const Cart: React.FC<ICartComponent> = ({
   cart,
   removeFromCart,
-  increaseProductQuantity,
-  decreaseProductQuantity,
-}) {
-  function formatNumber(value, decimals) {
+  increaseProductAmount,
+  decreaseProductAmount,
+}) => {
+  function formatNumber(value: number, decimals: number) {
     return Number(value.toFixed(decimals));
   }
 
-  const totalSum = cart.reduce((acc, item) => {
-    acc += item.price * item.quantity;
+  const totalSum = cart.reduce((acc: number, item: ICart) => {
+    acc += item.price * item.amount;
     return acc;
   }, 0);
 
@@ -41,8 +42,8 @@ export function Cart({
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => (
-                <tr key={item.id} className="border-b hover:bg-gray-100">
+              {cart.map((item: ICart) => (
+                <tr key={item.id} className="border-b ">
                   <td className="px-2 py-2 sm:px-4 sm:py-2">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                       <div className="w-16 h-16 p-2 sm:w-20 sm:h-20 border-2 border-neutral-400 rounded-xl overflow-hidden">
@@ -52,7 +53,7 @@ export function Cart({
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <p className="hover:text-slate-700">
+                      <p className="hover:text-indigo-700">
                         <Link
                           to={`/products/${item.id}`}
                         >{`${item.title.slice(0, 12)}...`}</Link>
@@ -63,19 +64,19 @@ export function Cart({
                     {formatNumber(item.price, 2)}$
                   </td>
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
-                    <div className={'flex gap-1 items-center'}>
+                    <div className={'flex gap-2 items-center'}>
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
-                        onClick={() => increaseProductQuantity(item)}
-                        disabled={item.quantity + 1 >= 100}
+                        className={`px-3 py-1.5 bg-white border-2 border-indigo-400 hover:border-indigo-600 rounded-full ${item.amount + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
+                        onClick={() => increaseProductAmount(item)}
+                        disabled={item.amount + 1 >= 100}
                       >
                         +
                       </button>
-                      {item.quantity}
+                      {item.amount}
                       <button
-                        className={`px-3 py-1.5 bg-banner hover:bg-slate-400 rounded-full ${item.quantity - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
-                        onClick={() => decreaseProductQuantity(item)}
-                        disabled={item.quantity <= 1}
+                        className={`px-3 py-1.5 bg-white hover:bg-white  border-2 border-indigo-400 hover:border-indigo-600 rounded-full ${item.amount - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
+                        onClick={() => decreaseProductAmount(item)}
+                        disabled={item.amount <= 1}
                       >
                         -
                       </button>
@@ -83,13 +84,13 @@ export function Cart({
                   </td>
                   <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
                     <div className={'flex gap-1 items-center w-full'}>
-                      <span>
-                        {formatNumber(item.quantity * item.price, 2)}$
-                      </span>
+                      <span>{formatNumber(item.amount * item.price, 2)}$</span>
                       <Button
                         text={'Remove'}
-                        onClick={() => removeFromCart(item.id)}
-                        className={'w-fit text-base px-3 ml-auto'}
+                        handleClick={() => removeFromCart(item.id)}
+                        className={
+                          'hover:bg-white w-fit text-bas3e px-3 py-2 ml-auto bg-white border-2 border-indigo-400 '
+                        }
                       />
                     </div>
                   </td>
@@ -102,7 +103,9 @@ export function Cart({
             <h2 className={'font-medium text-2xl'}>Your cart is empty</h2>
             <Link to={'/products'}>
               <button
-                className={'px-4 py-2 bg-banner text-neutral-50 rounded-2xl'}
+                className={
+                  'px-4 py-2 bg-indigo-100 text-neutral-50 rounded-2xl'
+                }
               >
                 Start shopping
               </button>
@@ -110,22 +113,15 @@ export function Cart({
           </div>
         )}
       </div>
-      <div className={'flex flex-col mt-16 self-end'}>
+      <div className={'flex flex-col gap-3 mt-16 self-end'}>
         <p>Total: {formatNumber(totalSum, 2)}$</p>
         <Button
           text={'Checkout'}
           className={
-            'px-4 py-2 border-2 border-banner bg-banner text-neutral-50 hover:text-banner hover:bg-neutral-50 transition-all duration-200 rounded-2xl'
+            'px-4 py-2 border-banner hover:bg-white hover:text-banner hover:border-dashed transition-all duration-200 rounded-2xl bg-white border-2 border-indigo-400'
           }
         />
       </div>
     </div>
   );
-}
-
-Cart.propTypes = {
-  cart: PropTypes.array.isRequired,
-  removeFromCart: PropTypes.func.isRequired,
-  increaseProductQuantity: PropTypes.func.isRequired,
-  decreaseProductQuantity: PropTypes.func.isRequired,
 };
