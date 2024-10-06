@@ -2,7 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ICart from '../types/cart.types';
 import ICartComponent from '../types/cartComponent.types';
-import { Button } from './Button';
+import { CustomButton } from './Button';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 export const Cart: React.FC<ICartComponent> = ({
   cart,
@@ -24,103 +35,84 @@ export const Cart: React.FC<ICartComponent> = ({
       <h1 className={'font-medium text-3xl mb-20'}>Your Cart</h1>
       <div className="overflow-x-auto w-full">
         {cart.length ? (
-          <table className="min-w-full bg-white shadow-md rounded-lg">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-2 py-2 sm:px-4 sm:py-2 text-left text-xs sm:text-base">
-                  Product
-                </th>
-                <th className="px-2 py-2 sm:px-4 sm:py-2 text-left text-xs sm:text-base">
-                  Price
-                </th>
-                <th className="px-2 py-2 sm:px-4 sm:py-2 text-left text-xs sm:text-base">
-                  Quantity
-                </th>
-                <th className="px-2 py-2 sm:px-4 sm:py-2 text-left text-xs sm:text-base">
-                  Total
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.map((item: ICart) => (
-                <tr key={item.id} className="border-b ">
-                  <td className="px-2 py-2 sm:px-4 sm:py-2">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
-                      <div className="w-16 h-16 p-2 sm:w-20 sm:h-20 border-2 border-neutral-400 rounded-xl overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-contain"
-                        />
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow key={'header'}>
+                  <TableHead key={'product'}>Product</TableHead>
+                  <TableHead key={'price'}>Price</TableHead>
+                  <TableHead key={'quantity'}>Quantity</TableHead>
+                  <TableHead key={'total'}>Total</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {cart.map((item: ICart) => (
+                  <TableRow key={item.id}>
+                    <TableCell key={'product'}>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                        <div className="w-16 h-16 p-2 sm:w-20 sm:h-20 border-2 border-zinc-950 rounded-xl overflow-hidden">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        <p className="hover:text-indigo-700">
+                          <Link
+                            to={`/products/${item.id}`}
+                          >{`${item.title.slice(0, 12)}...`}</Link>
+                        </p>
                       </div>
-                      <p className="hover:text-indigo-700">
-                        <Link
-                          to={`/products/${item.id}`}
-                        >{`${item.title.slice(0, 12)}...`}</Link>
-                      </p>
-                    </div>
-                  </td>
-                  <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
-                    {formatNumber(item.price, 2)}$
-                  </td>
-                  <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
-                    <div className={'flex gap-2 items-center'}>
-                      <button
-                        className={`px-3 py-1.5 bg-white border-2 border-indigo-400 hover:border-indigo-600 rounded-full ${item.amount + 1 >= 100 && 'bg-neutral-200 hover:bg-neutral-200 '}`}
-                        onClick={() => increaseProductAmount(item)}
-                        disabled={item.amount + 1 >= 100}
-                      >
-                        +
-                      </button>
-                      {item.amount}
-                      <button
-                        className={`px-3 py-1.5 bg-white hover:bg-white  border-2 border-indigo-400 hover:border-indigo-600 rounded-full ${item.amount - 1 <= 0 && 'bg-neutral-200 hover:bg-neutral-200'}`}
-                        onClick={() => decreaseProductAmount(item)}
-                        disabled={item.amount <= 1}
-                      >
-                        -
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-2 py-2 sm:px-4 sm:py-2 text-xs sm:text-base">
-                    <div className={'flex gap-1 items-center w-full'}>
-                      <span>{formatNumber(item.amount * item.price, 2)}$</span>
-                      <Button
-                        text={'Remove'}
-                        handleClick={() => removeFromCart(item.id)}
-                        className={
-                          'hover:bg-white w-fit text-bas3e px-3 py-2 ml-auto bg-white border-2 border-indigo-400 '
-                        }
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </TableCell>
+                    <TableCell key={'price'}>{item.price}</TableCell>
+                    <TableCell key={'amount'}>
+                      <div className={'flex gap-2 items-center'}>
+                        <Button
+                          className="text-white"
+                          onClick={() => increaseProductAmount(item)}
+                          disabled={item.amount + 1 >= 100}
+                        >
+                          +
+                        </Button>
+                        {item.amount}
+                        <Button
+                          className="text-white"
+                          onClick={() => decreaseProductAmount(item)}
+                          disabled={item.amount <= 1}
+                        >
+                          -
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell key={'total'}>
+                      {formatNumber(item.amount * item.price, 2)}$
+                    </TableCell>
+                    <TableCell key={'remove-btn'}>
+                      <Button onClick={() => removeFromCart(item.id)}>
+                        Remove
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         ) : (
           <div className={'flex flex-col gap-10 items-center w-full'}>
             <h2 className={'font-medium text-2xl'}>Your cart is empty</h2>
             <Link to={'/products'}>
-              <button
-                className={
-                  'px-4 py-2 bg-indigo-100 text-neutral-50 rounded-2xl'
-                }
-              >
-                Start shopping
-              </button>
+              <Button>Start shopping</Button>
             </Link>
           </div>
         )}
       </div>
-      <div className={'flex flex-col gap-3 mt-16 self-end'}>
-        <p>Total: {formatNumber(totalSum, 2)}$</p>
-        <Button
-          text={'Checkout'}
-          className={
-            'px-4 py-2 border-banner hover:bg-white hover:text-banner hover:border-dashed transition-all duration-200 rounded-2xl bg-white border-2 border-indigo-400'
-          }
-        />
+      <div
+        className={
+          'flex flex-col gap-3 mt-16 self-end w-full lg:w-auto items-center'
+        }
+      >
+        <p>{formatNumber(totalSum, 2)}$</p>
+        <Button className="w-full">Checkout</Button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer
       className={
-        'bg-zinc-200 flex justify-center items-center w-full py-10 mt-auto'
+        'bg-zinc-950 text-white flex justify-center items-center w-full py-10 mt-auto'
       }
     >
       <div

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import ButtonProps from '../types/button.types';
 
-export const Button: React.FC<ButtonProps> = ({
+export const CustomButton: React.FC<ButtonProps> = ({
   text,
   icon: iconPath = null,
   handleClick,
