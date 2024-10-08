@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/carousel';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import IProduct from '../types/product.types.js';
 import ProductDetailsProps from '../types/ProductDetailsProps.js';
@@ -20,13 +20,6 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct | null>(null);
   const [quantity, setQuantity] = useState(1);
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
-    if (value.length <= 2 || value === '') {
-      setQuantity(parseInt(value));
-    }
-  }
 
   useEffect(() => {
     async function fetchProduct() {
