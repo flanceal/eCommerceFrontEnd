@@ -3,14 +3,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.js';
 import './index.css';
+import ConfigService from './services/config/config.service.js';
 
 const rootElement = document.getElementById('root') as HTMLElement;
+
+console.log(`Config Domain: ${ConfigService.getAuth0Domain()}`);
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-x4qcb3etzfwysc2l.us.auth0.com"
-      clientId="bXutUM57QcnN7DBGR2D1IcUFnox63qiT"
+      domain={ConfigService.getAuth0Domain()}
+      clientId={ConfigService.getAuth0ClientId()}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}

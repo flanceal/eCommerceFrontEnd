@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es6", "dom", "es2016"],
+    "types": ["vite/client"],
     "target": "ES6",
     "module": "ESNext",
     "jsx": "react-jsx",

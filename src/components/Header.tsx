@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -66,9 +67,6 @@ export const Header = () => {
             <Link to={'/cart'}>
               <HeaderIcon iconName={'cart'} />
             </Link>
-            {/* <Link to={'/profile'}>
-              <HeaderIcon iconName={'userPic'} />
-            </Link> */}
             <AccountDropdown />
           </div>
           <button
@@ -112,6 +110,8 @@ interface ModalHeaderProps {
 }
 
 const ModalHeader: React.FC<ModalHeaderProps> = ({ isOpened, toggleModal }) => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
   return (
     <ul
       className={`gap-10 w-screen h-screen bg-neutral-200/30 items-center mt-5 pt-14 font-medium text-2xl transition-all duration-300 ${isOpened ? 'flex flex-col animate-fadeInHeader' : 'hidden animate-fadeOutHeader'}`}
@@ -127,6 +127,15 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ isOpened, toggleModal }) => {
       </li>
       <li onClick={toggleModal}>
         <Link to={'/cart'}>Cart</Link>
+      </li>
+      <li>
+        <button>
+          {isAuthenticated ? (
+            <span onClick={() => logout()}>Log out</span>
+          ) : (
+            <span onClick={() => loginWithRedirect()}>Log in</span>
+          )}
+        </button>
       </li>
     </ul>
   );
