@@ -1,6 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AccountDropdown from './AccountDropdown';
 
 export const Header = () => {
   const [pageOpened, setPageOpened] = useState<string | null>('Home');
@@ -65,9 +66,10 @@ export const Header = () => {
             <Link to={'/cart'}>
               <HeaderIcon iconName={'cart'} />
             </Link>
-            <Link to={'/profile'}>
+            {/* <Link to={'/profile'}>
               <HeaderIcon iconName={'userPic'} />
-            </Link>
+            </Link> */}
+            <AccountDropdown />
           </div>
           <button
             className={
@@ -134,7 +136,7 @@ interface HeaderIconProps {
   iconName: string;
 }
 
-const HeaderIcon: React.FC<HeaderIconProps> = ({ iconName }) => {
+export const HeaderIcon: React.FC<HeaderIconProps> = ({ iconName }) => {
   return (
     <div
       className={
