@@ -20,6 +20,17 @@ class ConfigService {
 
     return ConfigService.AUTH0_CLIENT_ID;
   };
+
+  private static readonly AUTH0_AUDIENCE: string | undefined = import.meta.env
+    .VITE_AUTH0_AUDIENCE;
+
+  public static readonly getAuth0Audience = () => {
+    if (!ConfigService.AUTH0_AUDIENCE) {
+      throw new Error('Audience for Auth0 is not specified');
+    }
+
+    return ConfigService.AUTH0_AUDIENCE;
+  };
 }
 
 export default ConfigService;

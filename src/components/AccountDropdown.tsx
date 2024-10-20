@@ -7,17 +7,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Skeleton } from '@mui/material';
 import { useEffect } from 'react';
 import { HeaderIcon } from './Header';
 
 const AccountDropdown = () => {
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently, logout } =
-    useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+    logout,
+    isLoading,
+  } = useAuth0();
 
   useEffect(() => {
     const setTokenIfAvailable = async () => {
       if (isAuthenticated) {
         const token = await getAccessTokenSilently();
+
         localStorage.setItem('token', token);
       } else {
         localStorage.removeItem('token');
@@ -33,20 +40,25 @@ const AccountDropdown = () => {
         <HeaderIcon iconName={'userPic'} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {isAuthenticated ? (
-          <button>
-            <DropdownMenuLabel onClick={() => logout()}>
-              Log out
-            </DropdownMenuLabel>
-          </button>
+        {isLoading ? (
+          <Skeleton />
         ) : (
-          <button>
-            <DropdownMenuLabel onClick={() => loginWithRedirect()}>
-              Log in
-            </DropdownMenuLabel>
-          </button>
+          <div>
+            {isAuthenticated ? (
+              <button>
+                <DropdownMenuLabel onClick={() => logout()}>
+                  Log out
+                </DropdownMenuLabel>
+              </button>
+            ) : (
+              <button>
+                <DropdownMenuLabel onClick={() => loginWithRedirect()}>
+                  Log in
+                </DropdownMenuLabel>
+              </button>
+            )}
+          </div>
         )}
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem>Orders</DropdownMenuItem>
       </DropdownMenuContent>
