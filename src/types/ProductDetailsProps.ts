@@ -1,5 +1,3 @@
-import IProduct from './product.types';
+import IProduct from '../domain/entities/product.entity';
 
-export default interface ProductDetailsProps {
-  addToCart: (product: IProduct, amount: number) => void;
-}
+export default interface ProductDetailsProps {}

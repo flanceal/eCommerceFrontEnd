@@ -11,7 +11,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <Card className="p-4 flex flex-col h-80 justify-between">
       <div className="w-full p-3 flex justify-center">
         <img
-          src={photoUrl}
+          src={`http://localhost:4000/images/${photoUrl}`}
           alt={`Image of ${title}`}
           className="w-auto h-32 object-contain"
         />

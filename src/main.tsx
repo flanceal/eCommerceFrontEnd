@@ -1,13 +1,11 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.js';
+import App from './App';
 import './index.css';
 import ConfigService from './services/config/config.service.js';
 
 const rootElement = document.getElementById('root') as HTMLElement;
-
-console.log(`Config Domain: ${ConfigService.getAuth0Domain()}`);
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>

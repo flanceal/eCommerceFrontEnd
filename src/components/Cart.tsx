@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ICart from '../types/cart.types';
-import ICartComponent from '../types/cartComponent.types';
-import { CustomButton } from './Button';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -14,19 +10,57 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { ICartItem } from '../domain/entities/cart.entity';
+import { ACTIONS } from '../domain/repositories/cart.repository';
+import useAddToCartMutation from '../presentation/hooks/useAddToCartMutation';
+import { useAuthToken } from '../presentation/hooks/useAuthToken';
+import useFetchCart from '../presentation/hooks/useFetchCart';
+import useUpdateProductQuantity from '../presentation/hooks/useUpdateProductQuantity';
 
-export const Cart: React.FC<ICartComponent> = ({
-  cart,
-  removeFromCart,
-  increaseProductAmount,
-  decreaseProductAmount,
-}) => {
+export const Cart: React.FC = () => {
+  const { cart, error, isLoading } = useFetchCart();
+  const changeMutation = useUpdateProductQuantity();
+  const addMutation = useAddToCartMutation();
+
+  const token = useAuthToken();
+
+  if (!token) {
+    return <h1>Sing up/in if you want to see your cart</h1>;
+  }
+
   function formatNumber(value: number, decimals: number) {
     return Number(value.toFixed(decimals));
   }
 
-  const totalSum = cart.reduce((acc: number, item: ICart) => {
-    acc += item.price * item.amount;
+  const changeProductQuantity = (
+    productId: string,
+    quantity: number,
+    action: ACTIONS,
+    token: string
+  ) => {
+    changeMutation.mutate({
+      productId,
+      quantity,
+      action,
+    });
+  };
+
+  // if (isLoading) {
+  //   return <h1>Is loading</h1>;
+  // }
+
+  if (!cart || error) {
+    return <h1>Error: ${error?.message}</h1>;
+  }
+
+  const items = cart?.items;
+
+  if (!items) {
+    return <h1>No items</h1>;
+  }
+
+  const totalSum = items.reduce((acc: number, item: ICartItem) => {
+    acc += item.product.price * item.quantity;
     return acc;
   }, 0);
 
@@ -34,7 +68,7 @@ export const Cart: React.FC<ICartComponent> = ({
     <div className="flex flex-col items-center mt-40">
       <h1 className={'font-medium text-3xl mb-20'}>Your Cart</h1>
       <div className="overflow-x-auto w-full">
-        {cart.length ? (
+        {items ? (
           <div className="rounded-md border">
             <Table>
               <TableHeader>
@@ -46,49 +80,70 @@ export const Cart: React.FC<ICartComponent> = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart.map((item: ICart) => (
-                  <TableRow key={item.id}>
+                {items.map((item: ICartItem) => (
+                  <TableRow key={item.productId}>
                     <TableCell key={'product'}>
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                         <div className="w-16 h-16 p-2 sm:w-20 sm:h-20 border-2 border-zinc-950 rounded-xl overflow-hidden">
                           <img
-                            src={item.image}
-                            alt={item.title}
+                            src={`http://localhost:4000/images/${item.product.imageUrl}`}
+                            alt={`${item.product.title} image`}
                             className="w-full h-full object-contain"
                           />
                         </div>
                         <p className="hover:text-indigo-700">
                           <Link
-                            to={`/products/${item.id}`}
-                          >{`${item.title.slice(0, 12)}...`}</Link>
+                            to={`/products/${item.productId}`}
+                          >{`${item.product.title.slice(0, 12)}...`}</Link>
                         </p>
                       </div>
                     </TableCell>
-                    <TableCell key={'price'}>{item.price}</TableCell>
+                    <TableCell key={'price'}>{item.product.price}</TableCell>
                     <TableCell key={'amount'}>
                       <div className={'flex gap-2 items-center'}>
                         <Button
                           className="text-white"
-                          onClick={() => increaseProductAmount(item)}
-                          disabled={item.amount + 1 >= 100}
+                          onClick={() => {
+                            addMutation.mutate({
+                              productId: item.productId,
+                              quantity: 1,
+                            });
+                          }}
+                          disabled={item.quantity + 1 >= 100}
                         >
                           +
                         </Button>
-                        {item.amount}
+                        {item.quantity}
                         <Button
                           className="text-white"
-                          onClick={() => decreaseProductAmount(item)}
-                          disabled={item.amount <= 1}
+                          onClick={() =>
+                            changeProductQuantity(
+                              item.productId,
+                              1,
+                              ACTIONS.Reduce,
+                              token
+                            )
+                          }
+                          disabled={item.quantity <= 1}
                         >
                           -
                         </Button>
                       </div>
                     </TableCell>
                     <TableCell key={'total'}>
-                      {formatNumber(item.amount * item.price, 2)}$
+                      {formatNumber(item.quantity * item.product.price, 2)}$
                     </TableCell>
                     <TableCell key={'remove-btn'}>
-                      <Button onClick={() => removeFromCart(item.id)}>
+                      <Button
+                        onClick={() =>
+                          changeProductQuantity(
+                            item.productId,
+                            0,
+                            ACTIONS.Remove,
+                            token
+                          )
+                        }
+                      >
                         Remove
                       </Button>
                     </TableCell>

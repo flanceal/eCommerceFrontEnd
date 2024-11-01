@@ -1,7 +1,11 @@
 import { Toaster } from '@/components/ui/sonner';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import axios from 'axios';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import CartService from './application/services/cart.service';
+import ProductService from './application/services/product.service';
 import About from './components/About';
 import { Cart } from './components/Cart';
 import { Footer } from './components/Footer';
@@ -10,50 +14,22 @@ import { Home } from './components/Home';
 import { ProductDetails } from './components/ProductDetails';
 import { Products } from './components/Products';
 import { Profile } from './components/Profile';
-import ICart from './types/cart.types';
-import IProduct from './types/product.types';
+import CartHttpAdapter from './infrastructure/http/adapters/cart.adapter';
+import ProductHttpAdapter from './infrastructure/http/adapters/product.adapter';
+import { CartServiceProvider } from './presentation/context/cart.service.provider';
+import { ProductServiceProvider } from './presentation/context/product.service.provider';
+
+const queryClient = new QueryClient();
+
+const productService: ProductService = new ProductService(
+  new ProductHttpAdapter(`${import.meta.env.VITE_BASE_API_URL}/products`, axios)
+);
+
+const cartService: CartService = new CartService(
+  new CartHttpAdapter(`${import.meta.env.VITE_BASE_API_URL}/cart`, axios)
+);
 
 function App() {
-  const [cart, setCart] = useState<ICart[]>([]);
-
-  function addToCart(product: IProduct, amount: number) {
-    if (amount <= 0) return;
-    const existingProduct = cart.find(
-      (item: IProduct) => item.id === product.id
-    );
-    if (existingProduct) {
-      adjustProductQuantity(product, amount);
-    } else {
-      setCart([...cart, { ...product, amount }]);
-    }
-  }
-
-  function adjustProductQuantity(product: IProduct, amountToAdd: number) {
-    setCart((prevCart) => {
-      return prevCart.map((item) =>
-        item.id === product.id
-          ? { ...item, amount: item.amount + amountToAdd }
-          : item
-      );
-    });
-  }
-
-  function removeFromCart(productId: string) {
-    setCart((prevCart) =>
-      prevCart.filter((item: IProduct) => item.id !== productId)
-    );
-  }
-
-  function increaseProductQuantityByOne(product: IProduct) {
-    adjustProductQuantity(product, 1);
-  }
-
-  function decreaseProductQuantityByOne(product: IProduct) {
-    adjustProductQuantity(product, -1);
-  }
-
-  console.log(cart);
-
   return (
     <BrowserRouter>
       <Header />
@@ -62,27 +38,20 @@ function App() {
           'max-w-screen-xl w-full flex flex-col h-full px-3 sm:px-12 lg:px-8 xl:px-16 mb-32 '
         }
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route
-            path="/products/:id"
-            element={<ProductDetails addToCart={addToCart} />}
-          />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/cart"
-            element={
-              <Cart
-                cart={cart}
-                removeFromCart={removeFromCart}
-                increaseProductAmount={increaseProductQuantityByOne}
-                decreaseProductAmount={decreaseProductQuantityByOne}
-              />
-            }
-          />
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+          <ProductServiceProvider service={productService}>
+            <CartServiceProvider service={cartService}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/products/:id" element={<ProductDetails />} />
+                <Route path="/about-us" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/cart" element={<Cart />} />
+              </Routes>
+            </CartServiceProvider>
+          </ProductServiceProvider>
+        </QueryClientProvider>
       </div>
       <Footer />
       <Toaster />

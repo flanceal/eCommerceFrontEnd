@@ -7,29 +7,22 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import IProduct from '../types/product.types.js';
+import { ACTIONS } from '../domain/repositories/cart.repository.js';
+import useAddToCartMutation from '../presentation/hooks/useAddToCartMutation.js';
+import { useAuthToken } from '../presentation/hooks/useAuthToken.js';
+import useFetchProduct from '../presentation/hooks/useFetchProduct.js';
 import ProductDetailsProps from '../types/ProductDetailsProps.js';
 import { Card, CardContent } from './ui/card.js';
 
-export const ProductDetails: React.FC<ProductDetailsProps> = ({
-  addToCart,
-}) => {
+export const ProductDetails: React.FC<ProductDetailsProps> = ({}) => {
   const { id } = useParams();
-  const [product, setProduct] = useState<IProduct | null>(null);
+  const { product, error, isLoading } = useFetchProduct(id as string);
+  const mutation = useAddToCartMutation();
   const [quantity, setQuantity] = useState(1);
-
-  useEffect(() => {
-    async function fetchProduct() {
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-      const json = await response.json();
-      setProduct(json);
-    }
-
-    fetchProduct();
-  }, [id]);
+  const token = useAuthToken();
 
   if (!product) return <div className={'mt-32'}>Loading...</div>;
 
@@ -43,7 +36,10 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
                 <div className="p-1">
                   <Card>
                     <CardContent className="flex aspect-square items-center justify-center p-6">
-                      <img src={product.image} alt={`${product.name} image`} />
+                      <img
+                        src={`http://localhost:4000/images/${product.imageUrl}`}
+                        alt={`${product.title} image`}
+                      />
                     </CardContent>
                   </Card>
                 </div>
@@ -83,7 +79,14 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
             </div>
             <Button
               onClick={() => {
-                addToCart(product, quantity);
+                mutation.mutate({
+                  productId: product.id,
+                  quantity: quantity,
+                  action: ACTIONS.Add,
+                  token: token,
+                });
+                // addToCart(product, quantity);
+                // IMPLEMENT LATER WITH API ENDPOINT
                 toast('Added to the cart', {
                   description: 'Visit your cart to see added products',
                 });
